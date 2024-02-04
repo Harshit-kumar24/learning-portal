@@ -1,25 +1,26 @@
 package com.learning.learningportal.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.learning.learningportal.entity.Course;
 import com.learning.learningportal.entity.User;
 
 public interface UserService {
-	//ADMIN
-	//SEE ALL USERS
+
+	//list a  users
 	List<User> seeAllUsers();
 
-	//SEE PURCHASED COURSES
-	List<Course> seePurchsedCourses(List<Long> pids);
+	//list all purchased coursed
+	List<Course> seeAllCourses(List<Long> pids);
 
-	//DELETE USERS
-	void deleteUser(Course course);
+	//delete user
+	void deleteUser(Long id);
 
-	//LEARNER
-	//LOGIN LEARNER
-	User loginUser(User user);
+	//login user
+	Optional<User> loginUser(Long id);
 
-	//REGISTER USER
+	//register user
 	User registerUser(User user);
+
 }
