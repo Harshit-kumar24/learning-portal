@@ -15,7 +15,7 @@ public interface UserService {
 	List<Course> seeAllCourses(List<Long> pids);
 
 	//delete user
-	void deleteUser(Long id);
+	String deleteUser(Long id);
 
 	//login user
 	Optional<User> loginUser(Long id);

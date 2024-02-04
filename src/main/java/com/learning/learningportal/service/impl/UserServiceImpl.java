@@ -32,21 +32,23 @@ public class UserServiceImpl implements UserService {
 
 	//delete user
 	@Override
-	public void deleteUser(Long id) {
+	public String deleteUser(Long id) {
 		userRepository.deleteById(id);
+		return "User deleted";
 	}
 
 	//LEARNER
-	//list purchased courses
-	@Override
-	public List<Course> seeAllCourses(List<Long> pids) {
-		return courseRepository.findAllById(pids);
-	}
 
 	//login user
 	@Override
 	public Optional<User> loginUser(@Nullable Long uuid) {
 		return userRepository.findById(uuid);
+	}
+
+	//list purchased courses
+	@Override
+	public List<Course> seeAllCourses(List<Long> pids) {
+		return courseRepository.findAllById(pids);
 	}
 
 	//register user
