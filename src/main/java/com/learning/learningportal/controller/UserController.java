@@ -1,5 +1,6 @@
 package com.learning.learningportal.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +28,18 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	//	ADMIN
+	//ADMIN
 	//GET
 	//get all users 
 	@GetMapping
-	public List<User> getAllUsers() {
-		return userService.seeAllUsers();
+	public List<User> getAllUsers(@RequestHeader Long user_Id) {
+		Optional<User> adminUser = userService.loginUser(user_Id);
+
+		if (adminUser.isPresent() && (adminUser.get().isAdmin())) {
+			return userService.seeAllUsers();
+		}
+
+		return Collections.emptyList();
 	}
 
 	@GetMapping("/{id}")
