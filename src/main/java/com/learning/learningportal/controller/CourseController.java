@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,7 @@ import com.learning.learningportal.service.UserService;
 public class CourseController {
 	private final CourseService courseService;
 	private final UserService userService;
+	private static final Logger log = LoggerFactory.getLogger(CourseController.class);
 
 	public CourseController(CourseService courseService, UserService userService) {
 		this.courseService = courseService;
@@ -34,8 +37,10 @@ public class CourseController {
 	@GetMapping
 	public List<Course> getAllCourses(@RequestBody User user) {
 		if (user.isAuthor()) {
+			log.info("Showing all courses");
 			return courseService.getAllCourses();
 		}
+		log.info("you are not authorized to see all courses");
 		return Collections.emptyList();
 	}
 	//get a single course
@@ -45,9 +50,11 @@ public class CourseController {
 		Optional<User> authorUser = userService.loginUser(user_id);
 
 		if (authorUser.isPresent() && (authorUser.get().isAuthor())) {
+			log.info("Showing the course");
 			return courseService.getCourse(id);
 		}
 
+		log.info("Error occured not able to show the course");
 		return Optional.empty();
 	}
 
@@ -57,10 +64,12 @@ public class CourseController {
 		Optional<User> authorUser = userService.loginUser(user_id);
 
 		if (authorUser.isPresent() && (authorUser.get().isAuthor())) {
+			log.info("course added");
 			return courseService.addCourse(course);
 		}
 		Course unAuthorizedCourse = new Course();
 		unAuthorizedCourse.setUuid(-1L);
+		log.info("you are not authorized to post a course");
 		return unAuthorizedCourse;
 	}
 
@@ -70,12 +79,14 @@ public class CourseController {
 		Optional<User> authorUser = userService.loginUser(id);
 
 		if (authorUser.isPresent() && (authorUser.get().isAuthor())) {
+			log.info("course updated");
 			return courseService.updateCourse(course);
 
 		}
 
 		Course unAuthorizedCourse = new Course();
 		unAuthorizedCourse.setUuid(-1L);
+		log.info("you not authorized to update a course");
 		return unAuthorizedCourse;
 	}
 
@@ -85,7 +96,9 @@ public class CourseController {
 		Optional<User> authorUser = userService.loginUser(user_id);
 
 		if (authorUser.isPresent() && (authorUser.get().isAuthor())) {
+			log.info("course deleted");
 			courseService.deleteCourse(id);
 		}
+		log.info("you are not authorized to delete a course");
 	}
 }
