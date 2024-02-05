@@ -8,9 +8,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
 	@Id
@@ -33,67 +39,4 @@ public class User {
 	@Column(name = "purchasedCourses")
 	private List<Long> purchasedCourses;
 
-	//CONSTRUCTORS
-	public User() {
-
-	}
-
-	public User(Long uuid, String username, String password, boolean isAdmin, boolean isAuthor,
-			List<Long> purchasedCourses) {
-		this.uuid = uuid;
-		this.username = username;
-		this.password = password;
-		this.isAdmin = isAdmin;
-		this.isAuthor = isAuthor;
-		this.purchasedCourses = purchasedCourses;
-	}
-
-	//GETTERS AND SETTERS
-	public Long getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(Long uuid) {
-		this.uuid = uuid;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public boolean isAuthor() {
-		return isAuthor;
-	}
-
-	public void setAuthor(boolean isAuthor) {
-		this.isAuthor = isAuthor;
-	}
-
-	public List<Long> getPurchasedCourses() {
-		return purchasedCourses;
-	}
-
-	public void setPurchasedCourses(List<Long> purchasedCourses) {
-		this.purchasedCourses = purchasedCourses;
-	}
 }
