@@ -43,8 +43,24 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public Optional<User> enterUser(@PathVariable Long id) {
-		return userService.loginUser(id);
+	public Optional<User> enterUser(@RequestHeader Long user_Id, @PathVariable Long id) {
+		Optional<User> adminUser = userService.loginUser(user_Id);
+
+		if (adminUser.isPresent() && (adminUser.get().isAdmin())) {
+			return userService.loginUser(id);
+		}
+
+		return Optional.empty();
+	}
+
+	//DELETE
+	@DeleteMapping("/{id}")
+	public void removeUser(@RequestHeader Long user_Id, @PathVariable Long id) {
+		Optional<User> adminUser = userService.loginUser(user_Id);
+
+		if (adminUser.isPresent() && (adminUser.get().isAdmin())) {
+			userService.deleteUser(id);
+		}
 	}
 
 	//LEARNER
@@ -66,12 +82,6 @@ public class UserController {
 	@PostMapping
 	public User addUser(@RequestBody User user) {
 		return userService.registerUser(user);
-	}
-
-	//DELETE
-	@DeleteMapping("/{id}")
-	public void removeUser(@PathVariable Long id) {
-		userService.deleteUser(id);
 	}
 
 }

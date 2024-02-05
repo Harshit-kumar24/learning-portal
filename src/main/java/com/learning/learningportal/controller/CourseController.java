@@ -48,7 +48,7 @@ public class CourseController {
 			return courseService.getCourse(id);
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	//post a course
@@ -59,8 +59,9 @@ public class CourseController {
 		if (authorUser.isPresent() && (authorUser.get().isAuthor())) {
 			return courseService.addCourse(course);
 		}
-
-		return null;
+		Course unAuthorizedCourse = new Course();
+		unAuthorizedCourse.setUuid(-1L);
+		return unAuthorizedCourse;
 	}
 
 	//update course
@@ -72,7 +73,10 @@ public class CourseController {
 			return courseService.updateCourse(course);
 
 		}
-		return null;
+
+		Course unAuthorizedCourse = new Course();
+		unAuthorizedCourse.setUuid(-1L);
+		return unAuthorizedCourse;
 	}
 
 	//delete course
